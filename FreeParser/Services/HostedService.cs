@@ -12,6 +12,7 @@ namespace FreeParser.Services
 	{
 		private readonly ILogger<HostedService> logger;
 		private Timer _timer;
+		private bool IsRunning = false; 
 		private IServiceWorker serviceWorker;
 
 		public HostedService(ILogger<HostedService> logger, IServiceWorker serviceWorker)
@@ -27,16 +28,29 @@ namespace FreeParser.Services
 
 		public Task StartAsync(CancellationToken cancellationToken)
 		{
-			logger.LogInformation("RecureHostedService is Starting");
-			_timer = new Timer(DoWork, null, TimeSpan.Zero, ServiceSettings.ParsingPeriod);
-			return Task.CompletedTask;
+			if(IsRunning == false)
+			{
+				IsRunning = true;
+				logger.LogInformation("RecureHostedService is Starting");
+				_timer = new Timer(DoWork, null, TimeSpan.Zero, ServiceSettings.ParsingPeriod);
+				return Task.FromResult("Парсинг успешно запущен!");
+			}
+
+			return Task.FromResult("Парсинг уже был запущен раньше!");
 		}
 
 		public Task StopAsync(CancellationToken cancellationToken)
 		{
-			logger.LogInformation("RecureHostedService is Stopping");
-			_timer?.Change(Timeout.Infinite, 0);
-			return Task.CompletedTask;
+			if(IsRunning == true)
+			{
+				IsRunning = false;
+				logger.LogInformation("RecureHostedService is Stopping");
+				_timer?.Change(Timeout.Infinite, 0);
+				return Task.FromResult("Парсинг успешно остановлен!");
+			}
+
+
+			return Task.FromResult("Парсинг еще не запущен!");
 		}
 
 		private void DoWork(object state)

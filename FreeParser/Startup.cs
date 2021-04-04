@@ -1,3 +1,4 @@
+using FreeParser.Models;
 using FreeParser.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +50,8 @@ namespace FreeParser
 			{
 				endpoints.MapControllers();
 			});
+
+			Bot.Get().Wait();
 		}
 	}
 }

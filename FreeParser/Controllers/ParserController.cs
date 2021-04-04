@@ -30,17 +30,21 @@ namespace FreeParser.Controllers
         [HttpPost]
         public IActionResult WorkService([FromBody] Work work)
         {
+            Task result;
+
 			if (work.isWork == false)
 			{
-                _backgroundParsing.StopAsync(new System.Threading.CancellationToken());
-                return Ok("Parsing stop");
+               result = _backgroundParsing.StopAsync(new System.Threading.CancellationToken());
+                
 			}
 			else
 			{
-                _backgroundParsing.StartAsync(new System.Threading.CancellationToken());
-                return Ok("Parsing start");
+                result = _backgroundParsing.StartAsync(new System.Threading.CancellationToken());
+                
             }
-            
+
+            return Ok(result);
+
         }
     }
 }
