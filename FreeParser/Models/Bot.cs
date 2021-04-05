@@ -27,7 +27,7 @@ namespace FreeParser.Models
 
 
 			client = new TelegramBotClient(BotSettings.Key);
-			var hook = string.Format(BotSettings.Url, "api/bot");
+			var hook = string.Format(BotSettings.Url, "api/Message/Update");
 			await client.SetWebhookAsync(hook);
 
 			return client;

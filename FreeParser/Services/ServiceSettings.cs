@@ -7,6 +7,9 @@ namespace FreeParser.Services
 {
 	public static class ServiceSettings
 	{
+		/// <summary>
+		/// Пауза между парсингом.
+		/// </summary>
 		public static readonly TimeSpan ParsingPeriod = TimeSpan.FromSeconds(5);
 	}
 }

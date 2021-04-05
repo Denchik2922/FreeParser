@@ -1,14 +1,24 @@
 ﻿using FreeParser.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
 namespace FreeParser.Controllers
 {
-	[Route("api/[controller]")]
+	[Route("api/[controller]/update")]
 	[ApiController]
-	public class BotController : ControllerBase
+	public class MessageController : ControllerBase
 	{
+		[HttpGet]
+		public OkResult Get()
+		{
+			return Ok();
+		}
+
 		[HttpPost]
 		public async Task<OkResult> Update([FromBody] Update update)
 		{
