@@ -15,11 +15,12 @@ namespace FreeParser.Models
 		/// <summary>
 		/// Название бота.
 		/// </summary>
-		public static string Name { get; set; } = "free_parser_burse_bot";
+		public static string Name { get; set; } = "FreeParserAllFreelanceBirgBot";
 
 		/// <summary>
 		/// Токен бота.
 		/// </summary>
-		public static string Key { get; set; } = "1738458660:AAGChjMOWACyUO-h72Ug_CCacLF4ygWSVfM";
+		public static string Key { get; set; } = "1525823832:AAHLZPtzZT47MLZBZqoId2FkSrZP4utRGW8";
+
 	}
 }

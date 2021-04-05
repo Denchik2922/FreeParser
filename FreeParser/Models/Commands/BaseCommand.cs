@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using DBL.Controllers;
 
 namespace FreeParser.Models.Commands
 {
@@ -17,7 +18,7 @@ namespace FreeParser.Models.Commands
 		/// </summary>
 		/// <param name="message"> Сообщение от бота. </param>
 		/// <param name="client"> Бот.</param>
-		public abstract Task Execute(Message message, TelegramBotClient client);
+		public abstract Task Execute(Message message, TelegramBotClient client, DBController db);
 
 		/// <summary>
 		/// Сравнение команды.

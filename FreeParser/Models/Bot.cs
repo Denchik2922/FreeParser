@@ -9,10 +9,19 @@ namespace FreeParser.Models
 {
 	public static class Bot
 	{
+		/// <summary>
+		/// Клиент телеграма.
+		/// </summary>
 		private static TelegramBotClient client;
 
+		/// <summary>
+		/// Список команд.
+		/// </summary>
 		private static List<BaseCommand> commandsList;
 
+		/// <summary>
+		/// Команды
+		/// </summary>
 		public static IReadOnlyList<BaseCommand> Commands { get => commandsList.AsReadOnly(); }
 
 		public static async Task<TelegramBotClient> Get()

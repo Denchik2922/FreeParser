@@ -1,11 +1,8 @@
-﻿using FreeParser.Models;
-using Microsoft.AspNetCore.Http;
+﻿using DBL.Controllers;
+using DBL.Models;
 using Microsoft.AspNetCore.Mvc;
+using DBL.DataAccess;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Telegram.Bot;
 
 namespace FreeParser.Controllers
 {
@@ -13,14 +10,20 @@ namespace FreeParser.Controllers
 	[ApiController]
 	public class HomeController : ControllerBase
 	{
-		[HttpGet]
-		public async Task<IActionResult> Get()
+		private readonly DBController db;
+
+		public HomeController(DBContext context)
 		{
-			TelegramBotClient client = await Bot.Get();
+			db = new DBController(context);
+		}
 
+		[HttpGet]
+		public IActionResult Get()
+		{
+			return Ok();
+			/*TelegramBotClient client = await Bot.Get();
+			var info =  await client.GetWebhookInfoAsync();*/
 
-			var info =  await client.GetWebhookInfoAsync();
-			return Ok(info);
 		}
 
 

@@ -1,4 +1,6 @@
-﻿using FreeParser.Models;
+﻿using DBL.Controllers;
+using DBL.DataAccess;
+using FreeParser.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +15,16 @@ namespace FreeParser.Controllers
 	[ApiController]
 	public class MessageController : ControllerBase
 	{
+		/// <summary>
+		/// База данных
+		/// </summary>
+		private readonly DBController db;
+
+		public MessageController(DBContext context)
+		{
+			db = new DBController(context);
+		}
+
 		[HttpGet]
 		public OkResult Get()
 		{
@@ -33,7 +45,7 @@ namespace FreeParser.Controllers
 			{
 				if (command.Contains(message.Text))
 				{
-					await command.Execute(message, client);
+					await command.Execute(message, client, db);
 					break;
 				}
 			}
