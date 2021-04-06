@@ -19,8 +19,6 @@ namespace FreeParser.Controllers
     [Route("api/[controller]")]
     public class ParserController : ControllerBase
 	{
-
-
         private readonly HostedService _backgroundParsing;
         public ParserController(IEnumerable<IHostedService> hostedService)
         {

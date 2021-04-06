@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using DBL.Controllers;
+using DBL.DataAccess;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,11 +17,15 @@ namespace FreeParser.Services
 		private Timer _timer;
 		private bool IsRunning = false; 
 		private IServiceWorker serviceWorker;
+		private readonly IServiceScopeFactory scopeFactory;
+		private DBController db;
 
-		public HostedService(ILogger<HostedService> logger, IServiceWorker serviceWorker)
+		public HostedService(ILogger<HostedService> logger, IServiceWorker serviceWorker, IServiceProvider serviceProvider)
 		{
 			this.logger = logger;
 			this.serviceWorker = serviceWorker;
+			var context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<DBContext>();
+			db = new DBController(context);
 		}
 
 		public void Dispose()
@@ -53,9 +60,9 @@ namespace FreeParser.Services
 			return Task.FromResult("Парсинг еще не запущен!");
 		}
 
-		private void DoWork(object state)
+		private async void DoWork(object state)
 		{
-			serviceWorker.DoWork();
+			await serviceWorker.DoWork(db);
 		}
 	}
 }

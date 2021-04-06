@@ -1,7 +1,10 @@
-﻿namespace FreeParser.Services
+﻿using System.Threading.Tasks;
+using DBL.Controllers;
+
+namespace FreeParser.Services
 {
 	public interface IServiceWorker
 	{
-		void DoWork();
+		Task DoWork(DBController db);
 	}
 }

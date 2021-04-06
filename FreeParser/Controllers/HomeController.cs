@@ -3,6 +3,8 @@ using DBL.Models;
 using Microsoft.AspNetCore.Mvc;
 using DBL.DataAccess;
 using System;
+using Telegram.Bot;
+using FreeParser.Models;
 
 namespace FreeParser.Controllers
 {
