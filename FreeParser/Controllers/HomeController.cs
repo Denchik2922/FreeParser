@@ -22,7 +22,7 @@ namespace FreeParser.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			return Ok();
+			return Ok("Get result is null");
 			/*TelegramBotClient client = await Bot.Get();
 			var info =  await client.GetWebhookInfoAsync();*/
 

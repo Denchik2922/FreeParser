@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeParser", "FreeParser\FreeParser.csproj", "{5942C9CE-D66D-4596-8346-F15E0DB8BD6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBL", "DBL\DBL.csproj", "{FB43834C-658B-425F-BAFC-7B5CBE8FCCEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBL", "DBL\DBL.csproj", "{FB43834C-658B-425F-BAFC-7B5CBE8FCCEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurseParse", "BurseParse\BurseParse.csproj", "{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FB43834C-658B-425F-BAFC-7B5CBE8FCCEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB43834C-658B-425F-BAFC-7B5CBE8FCCEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB43834C-658B-425F-BAFC-7B5CBE8FCCEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
