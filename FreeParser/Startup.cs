@@ -30,8 +30,9 @@ namespace FreeParser
 
 			services.AddDbContext<DBContext>(options =>
 			{
+				options.UseLazyLoadingProxies();
 				options.UseSqlServer(Configuration.GetConnectionString("ConnectionStringDB"));
-			});
+			}, ServiceLifetime.Transient);
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,6 +6,7 @@ namespace DBL.Models
 {
 	public class Burse : BaseModel
 	{
+
 		/// <summary>
 		/// Название биржи.
 		/// </summary>
@@ -14,6 +15,11 @@ namespace DBL.Models
 		/// <summary>
 		/// Список категорий.
 		/// </summary>
-		public ICollection<Category> Categories { get; set; }
+		public virtual ICollection<Category> Categories { get; set; } = new List<Category>();
+
+		public override string ToString()
+		{
+			return $"Name Burse:{Name}; \n Categories: {Categories.Count};";
+		}
 	}
 }

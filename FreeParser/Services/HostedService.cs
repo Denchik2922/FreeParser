@@ -18,14 +18,11 @@ namespace FreeParser.Services
 		private bool IsRunning = false; 
 		private IServiceWorker serviceWorker;
 		private readonly IServiceScopeFactory scopeFactory;
-		private DBController db;
 
 		public HostedService(ILogger<HostedService> logger, IServiceWorker serviceWorker, IServiceProvider serviceProvider)
 		{
 			this.logger = logger;
 			this.serviceWorker = serviceWorker;
-			var context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<DBContext>();
-			db = new DBController(context);
 		}
 
 		public void Dispose()
@@ -60,9 +57,9 @@ namespace FreeParser.Services
 			return Task.FromResult("Парсинг еще не запущен!");
 		}
 
-		private async void DoWork(object state)
+		private void DoWork(object state)
 		{
-			await serviceWorker.DoWork(db);
+			serviceWorker.DoWork();
 		}
 	}
 }

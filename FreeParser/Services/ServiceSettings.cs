@@ -10,6 +10,6 @@ namespace FreeParser.Services
 		/// <summary>
 		/// Пауза между парсингом.
 		/// </summary>
-		public static readonly TimeSpan ParsingPeriod = TimeSpan.FromMinutes(10);
+		public static readonly TimeSpan ParsingPeriod = TimeSpan.FromMinutes(50);
 	}
 }

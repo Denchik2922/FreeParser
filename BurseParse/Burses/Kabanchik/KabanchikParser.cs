@@ -1,60 +1,42 @@
 ﻿using AngleSharp.Html.Dom;
 using BurseParse.Core;
+using DBL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DBL.Models;
 
-namespace BurseParse.Burses.Freelancehunt
+namespace BurseParse.Burses.Kabanchik
 {
-	public class FreelancehuntParser : IParser
+	public class KabanchikParser : IParser
 	{
+
 		public List<Category> ParseCategory(IHtmlDocument document)
 		{
-			var numCategories = new List<string>();
-
 			var list = new List<Category>();
-
 			var categories = document.QuerySelectorAll("a.title");
-			
-			//Получаем теги категорий.
+
 			foreach (var category in categories)
 			{
-				numCategories.Add(category.GetAttribute("href"));
-			}
-
-			foreach(var num in numCategories)
-			{
-				string nameCategory = "";
-				var extraCategory = new List<ExtraCategory>();
-
-				var extraCategories = document.QuerySelectorAll($"ul#{num.Split('#')[1]} > li > a");
-
-				//Получаем название дополнительных категорий.
-				foreach(var ex in extraCategories)
+				list.Add(new Category
 				{
-					extraCategory.Add(new ExtraCategory()
-					{
-						Name = ex.LastChild.TextContent
-					});
-				}
-
-				//Получаем название основной категории.
-				foreach (var title in categories)
-				{
-					if(title.GetAttribute("href") == num)
-					{
-						nameCategory = title.TextContent;
-					}
-				}
-
-				list.Add(new Category()
-				{
-					Name = nameCategory,
-					ExtraCategories = extraCategory
+					Name = category.TextContent
 				});
-	
+			}
+			return list;
+		}
+
+		public List<object> ParseExtraCategory(IHtmlDocument document)
+		{
+			var list = new List<object>();
+			var categories = document.QuerySelectorAll("li.accordion-inner > a");
+
+			foreach (var category in categories)
+			{
+				list.Add(new
+				{
+					Name = category.TextContent
+				});
 			}
 			return list;
 		}
@@ -62,7 +44,6 @@ namespace BurseParse.Burses.Freelancehunt
 		public List<Order> ParseOrder(IHtmlDocument document)
 		{
 			var list = new List<Order>();
-
 			var names = document.QuerySelectorAll("td.left > a");
 			var categories = document.QuerySelectorAll("td.left > div > small");
 			var times = document.QuerySelectorAll("div.with-tooltip > h2");

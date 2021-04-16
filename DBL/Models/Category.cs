@@ -14,17 +14,17 @@ namespace DBL.Models
 		/// <summary>
 		/// Id биржи
 		/// </summary>
-		public int BurseId { get; set; }
+		public int? BurseId { get; set; }
 
 		/// <summary>
 		/// Биржа.
 		/// </summary>
-		public Burse Burse { get; set; }
+		public virtual Burse Burse { get; set; }
 
 		/// <summary>
 		/// Список дополнительных категорий.
 		/// </summary>
-		public ICollection<ExtraCategory> ExtraCategories { get; set; }
+		public virtual ICollection<ExtraCategory> ExtraCategories { get; set; }
 
 		public override string ToString()
 		{

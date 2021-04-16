@@ -37,7 +37,7 @@ namespace FreeParser.Models.Commands
 
 
 
-			await client.SendTextMessageAsync(chatId, usersCount, replyToMessageId: messageId);
+			await client.SendTextMessageAsync(chatId, usersCount);
 		}
 	}
 }

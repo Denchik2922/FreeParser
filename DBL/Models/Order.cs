@@ -29,7 +29,7 @@ namespace DBL.Models
 		/// <summary>
 		/// Список дополнительных категорий.
 		/// </summary>
-		public ICollection<ExtraCategory> ExtraCategories { get; set; }
+		public virtual ICollection<ExtraCategory> ExtraCategories { get; set; }
 
 		public override string ToString()
 		{

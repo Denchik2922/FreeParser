@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FreeParser", "FreeParser\Fr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBL", "DBL\DBL.csproj", "{FB43834C-658B-425F-BAFC-7B5CBE8FCCEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BurseParse", "BurseParse\BurseParse.csproj", "{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BurseParse", "BurseParse\BurseParse.csproj", "{0AD3468A-9CA0-4A8B-972A-A03E91AFF752}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

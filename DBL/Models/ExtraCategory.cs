@@ -20,22 +20,22 @@ namespace DBL.Models
 		/// <summary>
 		/// Id главной категории.
 		/// </summary>
-		public int CategoryId { get; set; }
+		public int? CategoryId { get; set; }
 
 		/// <summary>
 		/// Главная категория.
 		/// </summary>
-		public Category Category { get; set; }
+		public virtual Category Category { get; set; }
 
 		/// <summary>
 		/// Заказы.
 		/// </summary>
-		public ICollection<Order> Orders { get; set; }
+		public virtual ICollection<Order> Orders { get; set; }
 
 		/// <summary>
 		/// Пользователь категории.
 		/// </summary>
-		public ICollection<User> Users { get; set; }
+		public virtual ICollection<User> Users { get; set; }
 
 
 		public override string ToString()

@@ -27,17 +27,17 @@ namespace DBL.Models
 		/// <summary>
 		/// Подписка.
 		/// </summary>
-		public Subscribe Subscribe { get; set; }
+		public virtual Subscribe Subscribe { get; set; }
 
 		/// <summary>
 		/// Список категорий пользователя.
 		/// </summary>
-		public ICollection<ExtraCategory> ExtraCategories { get; set; }
+		public virtual ICollection<ExtraCategory> ExtraCategories { get; set; }
 
 		/// <summary>
 		/// Права доступа.
 		/// </summary>
-		public Permission Permission { get; set; }
+		public virtual Permission Permission { get; set; }
 
 		public override string ToString()
 		{

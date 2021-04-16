@@ -19,11 +19,11 @@ namespace DBL.Models
 		/// <summary>
 		/// Id gользователя.
 		/// </summary>
-		public int UserId { get; set; }
+		public int? UserId { get; set; }
 
 		/// <summary>
 		/// Пользователь прав.
 		/// </summary>
-		public User User { get; set; }
+		public virtual User User { get; set; }
 	}
 }

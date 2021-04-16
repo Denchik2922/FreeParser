@@ -5,6 +5,6 @@ namespace FreeParser.Services
 {
 	public interface IServiceWorker
 	{
-		Task DoWork(DBController db);
+		void DoWork();
 	}
 }

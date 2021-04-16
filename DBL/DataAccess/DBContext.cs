@@ -27,6 +27,10 @@ namespace DBL.DataAccess
 			modelBuilder.Entity<User>()
 			.HasIndex(u => u.ClientId)
 			.IsUnique();
+
+			modelBuilder.Entity<Burse>()
+			.HasMany(b => b.Categories)
+			.WithOne(c => c.Burse);
 		}
 	}
 }
