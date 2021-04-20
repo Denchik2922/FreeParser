@@ -33,9 +33,10 @@ namespace DBL.Models
 
 		public override string ToString()
 		{
-			return $"Name: {Description} \n" +
-				$"Url: {Url} \n" +
-				$"Date: {Date.ToString()}";
+			return $"{Description} \n" +
+				$"{Url} \n" +
+				$"{string.Join(",", ExtraCategories)} \n" +
+				$"{Date}";
 		}
 	}
 }

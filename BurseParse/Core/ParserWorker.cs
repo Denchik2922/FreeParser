@@ -29,7 +29,7 @@ namespace BurseParse.Core
             parsers = new Dictionary<IParser, IParserSettings>();
 		}
 
-        public event Action<object, List<Order>> OnNewData;
+        public event Action<object, List<Order>> OnNewOrder;
 
         public event Action<object, Dictionary<string,List<Category>>> OnNewCategory;
 
@@ -70,15 +70,15 @@ namespace BurseParse.Core
 
         }
 
-        public void GetOrders()
+        public async Task GetOrders()
         {
             foreach (var parser in parsers)
             {
-                Worker(parser.Key, parser.Value);
+               await Worker(parser.Key, parser.Value);
             }
         }
 
-        public async void GetCategories()
+        public async Task GetCategories()
         {
             
             foreach (var parser in parsers)
@@ -87,7 +87,7 @@ namespace BurseParse.Core
             }
         }
 
-        private async void Worker(IParser parser, IParserSettings settings)
+        private async Task Worker(IParser parser, IParserSettings settings)
         {
             var loader = new HtmlLoader(settings);
             for (int i = settings.StartPoint; i <= settings.EndPoint; i++)
@@ -99,7 +99,7 @@ namespace BurseParse.Core
 
                 var result = parser.ParseOrder(document);
 
-                OnNewData?.Invoke(this, result);
+                OnNewOrder?.Invoke(this, result);
             }
         }
 

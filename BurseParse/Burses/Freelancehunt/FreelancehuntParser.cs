@@ -62,6 +62,7 @@ namespace BurseParse.Burses.Freelancehunt
 		public List<Order> ParseOrder(IHtmlDocument document)
 		{
 			var list = new List<Order>();
+			
 
 			var names = document.QuerySelectorAll("td.left > a");
 			var categories = document.QuerySelectorAll("td.left > div > small");
@@ -72,16 +73,24 @@ namespace BurseParse.Burses.Freelancehunt
 			foreach (var order in ordersInfo)
 			{
 				var time = order.time.TextContent.Split(':');
+				var listCategories = new List<ExtraCategory>();
+
+				foreach (var c in order.Category.TextContent.Split(','))
+				{
+					listCategories.Add(new ExtraCategory() { Name = c });
+				}
 
 				list.Add(new Order()
 				{
+					ExtraCategories = listCategories,
 					Description = order.Name.TextContent,
 					Url = order.Name.GetAttribute("href"),
-					Date = DateTime.Now.Date.Add(new TimeSpan(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), 00))
+					Date = DateTime.Now.Date.Add(new TimeSpan(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), 00)),
+					
+
 				});
 
 			}
-
 
 			return list;
 		}

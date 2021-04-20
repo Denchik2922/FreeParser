@@ -1,6 +1,7 @@
 using DBL.DataAccess;
 using FreeParser.Models;
 using FreeParser.Services;
+using FreeParser.Services.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,12 @@ namespace FreeParser
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers().AddNewtonsoftJson();
-			services.AddSingleton<IServiceWorker, ServiceWorker>();
-			services.AddHostedService<HostedService>();
+			
+			services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+			services.AddSingleton<ICategoryWorker, CategoryWorker>();
+			services.AddSingleton<ISendOrderWorker, SendOrderWorker>();
+			services.AddHostedService<CategoryService>();
+			services.AddHostedService<SendOrderService>();
 
 			services.AddDbContext<DBContext>(options =>
 			{

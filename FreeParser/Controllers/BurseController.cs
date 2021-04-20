@@ -25,12 +25,10 @@ namespace FreeParser.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult Get()
+		public JsonResult Get()
 		{
-			List<Category> burse = db.GetId<Burse>(5).Categories as List<Category>;
-
-
-			return new OkObjectResult(burse);
+			List<Burse> burses = db.GetAll<Burse>();
+			return new JsonResult(burses);
 		}
 
 	}

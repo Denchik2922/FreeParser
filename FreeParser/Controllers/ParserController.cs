@@ -19,10 +19,10 @@ namespace FreeParser.Controllers
     [Route("api/[controller]")]
     public class ParserController : ControllerBase
 	{
-        private readonly HostedService _backgroundParsing;
+        private readonly CategoryService _backgroundParsing;
         public ParserController(IEnumerable<IHostedService> hostedService)
         {
-            _backgroundParsing = hostedService.Where(c => c.GetType().Name == nameof(HostedService)).FirstOrDefault() as HostedService;
+            _backgroundParsing = hostedService.Where(c => c.GetType().Name == nameof(CategoryService)).FirstOrDefault() as CategoryService;
         }
 
         [HttpPost]
