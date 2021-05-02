@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 
 namespace DBL.Controllers
 {
@@ -18,6 +18,43 @@ namespace DBL.Controllers
 		public DBController(DBContext db)
 		{
 			this.db = db;
+		}
+
+		/// <summary>
+		/// Добавление новых данных асинхронно.
+		/// </summary>
+		/// <typeparam name="T"> Тип модели. </typeparam>
+		/// <param name="model"> Модель. </param>
+		/// <returns> Результат выполнения. </returns>
+		public async override Task AddAsync<T>(T model)
+		{
+			try
+			{
+				await db.Set<T>().AddAsync(model);
+				await SaveAsync();
+			}
+			catch (Exception e)
+			{
+				throw new ArgumentException($"Произошла ошибка при добавлении данных!\n Код ошибки: {e}", nameof(model));
+			}
+		}
+
+		/// <summary>
+		/// Вывести все данные асинхронно.
+		/// </summary>
+		/// <typeparam name="T"> Тип модель.</typeparam>
+		/// <returns> Список моделей. </returns>
+		public async override Task<List<T>> GetAllAsync<T>()
+		{
+			try
+			{
+				return await db.Set<T>().ToListAsync();
+			}
+			catch (Exception e)
+			{
+				throw new Exception($"Произошла ошибка при выводе данных!\n Код ошибки: {e}");
+			}
+			
 		}
 
 		/// <summary>
@@ -35,7 +72,7 @@ namespace DBL.Controllers
 			}
 			catch (Exception e)
 			{
-				throw new ArgumentException($"Произошла ошибка при добавлении данных!\n Код ошибки: {e}", nameof(model));
+				throw new ArgumentException($"Произошла ошибка при добавлении данных!\nКод ошибки: {e}");
 			}
 
 		}
@@ -80,6 +117,8 @@ namespace DBL.Controllers
 
 		}
 
+		
+
 		/// <summary>
 		/// Вывести все данные.
 		/// </summary>
@@ -122,7 +161,27 @@ namespace DBL.Controllers
 		/// <returns> Результат выполнения. </returns>
 		public override void Save()
 		{
-			db.SaveChanges();
+
+			try
+			{
+				db.SaveChanges();
+			}
+			catch(Exception e)
+			{
+				throw new Exception($"Произошла ошибка при сохрании данных!\nКод ошибки: {e}");
+			}	
+		}
+
+		public async override Task SaveAsync()
+		{
+			try
+			{
+				await db.SaveChangesAsync();
+			}
+			catch (Exception e)
+			{
+				throw new Exception($"Произошла ошибка при сохрании данных!\nКод ошибки: {e}");
+			}
 		}
 
 		/// <summary>

@@ -31,9 +31,11 @@ namespace FreeParser.Services.Workers
 			parsers.Add(new FreelancehuntParser(), new FrelancehuntSettings(2, 3));
 			parserWorker = new ParserWorker();
 			parserWorker.AddParsers(parsers);
+
+			
 		}
 
-		public abstract void DoWork();
+		public abstract Task DoWork();
 	
 	}
 }

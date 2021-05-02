@@ -27,8 +27,20 @@ namespace FreeParser.Controllers
 		[HttpGet]
 		public JsonResult Get()
 		{
-			List<Burse> burses = db.GetAll<Burse>();
+			List<Burse> burses = db.GetAll<Burse>().Select(b => new Burse()
+			{
+				Id = b.Id,
+				Name = b.Name
+			}).ToList();
+			
 			return new JsonResult(burses);
+		}
+
+		[HttpPost]
+		public IActionResult Post(Burse burse)
+		{
+			var name = burse.Name;
+			return Ok("Запрос принят");
 		}
 
 	}

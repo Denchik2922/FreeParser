@@ -14,22 +14,12 @@ namespace BurseParse.Core
         /// </summary>
         private Dictionary<IParser, IParserSettings> parsers { get; set; }
 
-        HtmlLoader loader;
-
-        bool isActive;
-
-
-        public bool IsActive
-        {
-            get => isActive;
-        }
-
         public ParserWorker()
 		{
             parsers = new Dictionary<IParser, IParserSettings>();
 		}
 
-        public event Action<object, List<Order>> OnNewOrder;
+        public event Func<List<Order>, Task> OnNewOrderAsync;
 
         public event Action<object, Dictionary<string,List<Category>>> OnNewCategory;
 
@@ -99,7 +89,7 @@ namespace BurseParse.Core
 
                 var result = parser.ParseOrder(document);
 
-                OnNewOrder?.Invoke(this, result);
+                await OnNewOrderAsync?.Invoke(result);
             }
         }
 

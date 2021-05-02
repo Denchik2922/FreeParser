@@ -35,8 +35,7 @@ namespace DBL.Models
 		{
 			return $"{Description} \n" +
 				$"{Url} \n" +
-				$"{string.Join(",", ExtraCategories)} \n" +
-				$"{Date}";
+				$"{string.Join(",", ExtraCategories)}";
 		}
 	}
 }

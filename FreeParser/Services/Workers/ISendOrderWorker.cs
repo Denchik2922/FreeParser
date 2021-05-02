@@ -1,7 +1,9 @@
-﻿namespace FreeParser.Services.Workers
+﻿using System.Threading.Tasks;
+
+namespace FreeParser.Services.Workers
 {
 	public interface ISendOrderWorker
 	{
-		void DoWork();
+		Task DoWork();
 	}
 }

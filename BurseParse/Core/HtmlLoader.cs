@@ -30,6 +30,10 @@ namespace BurseParse.Core
             {
                 source = await response.Content.ReadAsStringAsync();
             }
+			else
+			{
+                throw new Exception(response.StatusCode.ToString());
+			}
 
             return source;
         }
@@ -42,6 +46,10 @@ namespace BurseParse.Core
             if (response != null && response.StatusCode == HttpStatusCode.OK)
             {
                 source = await response.Content.ReadAsStringAsync();
+            }
+            else
+            {
+                throw new Exception(response.StatusCode.ToString());
             }
 
             return source;

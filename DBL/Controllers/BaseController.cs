@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DBL.Controllers
 {
@@ -14,6 +15,10 @@ namespace DBL.Controllers
 
 		public abstract void Add<T>(T model) where T : class, IModel;
 
+		public abstract Task AddAsync<T>(T model) where T : class, IModel;
+
+		public abstract Task<List<T>> GetAllAsync<T>() where T : class, IModel;
+
 		public abstract void AddRange<T>(List<T> models) where T : class, IModel;
 
 		public abstract void Delete<T>(int id) where T : class, IModel;
@@ -21,5 +26,7 @@ namespace DBL.Controllers
 		public abstract void Update<T>(T model) where T : class, IModel;
 
 		public abstract void Save();
+
+		public abstract Task SaveAsync();
 	}
 }

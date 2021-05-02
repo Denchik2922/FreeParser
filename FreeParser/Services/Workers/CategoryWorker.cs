@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace FreeParser.Services.Workers
 {
@@ -18,16 +19,17 @@ namespace FreeParser.Services.Workers
 			parserWorker.OnNewCategory += Parser_OnNewCategory;			
 		}
 
-		public override async void DoWork()
+		public override async Task DoWork()
 		{
 			foreach (var parser in parsers)
 			{
 				try
 				{
-					var IsBurseExist = db.GetAll<Burse>().Any(b => b.Name == parser.Value.BurseName);
+					var burses = await db.GetAllAsync<Burse>();
+					var IsBurseExist = burses.Any(b => b.Name == parser.Value.BurseName);
 					if (!IsBurseExist)
 					{
-						db.Add<Burse>(new Burse() { Name = parser.Value.BurseName });
+						 await db.AddAsync<Burse>(new Burse() { Name = parser.Value.BurseName });
 					}
 				}
 				catch (Exception e)
@@ -55,19 +57,26 @@ namespace FreeParser.Services.Workers
 		{
 			foreach (var item in arg2)
 			{
+				bool IsNew = false;
 				try
 				{
 					var burse = db.GetAll<Burse>().Find(b => b.Name == item.Key);
 
 					foreach (var category in item.Value)
 					{
-						if (!burse.Categories.Any(c => c.Name.Contains(category.Name)))
+						if (!burse.Categories.Any(c => c.Name.Trim().ToLower().Contains(category.Name.Trim().ToLower())))
 						{
-							logger.LogInformation($"{!burse.Categories.Any(c => c.Name.Contains(category.Name))}");
+
+							logger.LogInformation($"{!burse.Categories.Any(c => c.Name.Contains(category.Name))}  :{category.Name.Trim().ToLower()}:");
 							burse.Categories.Add(category);
+							IsNew = true;
 						}
 					}
-					db.Update<Burse>(burse);
+					if (IsNew)
+					{
+						db.Update<Burse>(burse);
+					}
+					
 				}
 				catch (Exception e)
 				{

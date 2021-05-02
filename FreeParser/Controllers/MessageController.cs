@@ -3,6 +3,7 @@ using DBL.DataAccess;
 using FreeParser.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +16,17 @@ namespace FreeParser.Controllers
 	[ApiController]
 	public class MessageController : ControllerBase
 	{
+		
 		/// <summary>
 		/// База данных
 		/// </summary>
 		private readonly DBController db;
 
-		public MessageController(DBContext context)
+		private  ILogger<MessageController> _logger;
+
+		public MessageController(DBContext context, ILogger<MessageController> logger)
 		{
+			_logger = logger;
 			db = new DBController(context);
 		}
 
@@ -36,17 +41,35 @@ namespace FreeParser.Controllers
 		{
 			if (update == null) return Ok();
 
+			Message message;
+
 			var commands = Bot.Commands;
-			var message = update.Message;
+			if (update.Message != null)
+			{
+				message = update.Message;
+			}
+			else if(update.CallbackQuery.Message != null)
+			{
+				message = update.CallbackQuery.Message;
+			}
+			else return Ok();
+
 			var client = await Bot.Get();
 
 
 			foreach (var command in commands)
 			{
-				if (command.Contains(message.Text))
+				try
 				{
-					await command.Execute(message, client, db);
-					break;
+					if (command.Contains(message.Text))
+					{
+						await command.Execute(message, client, db);
+						break;
+					}
+				}
+				catch (Exception e)
+				{
+					_logger.LogError(e.Message);
 				}
 			}
 			return Ok();

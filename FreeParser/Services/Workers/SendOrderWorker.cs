@@ -15,16 +15,17 @@ namespace FreeParser.Services.Workers
 
 		public SendOrderWorker(ILogger<SendOrderWorker> logger, IServiceProvider serviceProvider) : base(logger, serviceProvider)
 		{
-			parserWorker.OnNewOrder += Parser_OnNewOrder;
+			parserWorker.OnNewOrderAsync += Parser_OnNewOrder;
 		}
 
-		private async void Parser_OnNewOrder(object arg1, List<Order> arg2)
+		private async Task Parser_OnNewOrder(List<Order> arg2)
 		{
 			try
 			{
 				foreach (var item in arg2)
 				{
-					bool IsOrderExist = db.GetAll<Order>().Any(o => o.Url.Contains(item.Url));
+					List<Order> orders = await db.GetAllAsync<Order>();
+					bool IsOrderExist = orders.Any(o => o.Url.Contains(item.Url));
 					var extraCategory = new List<ExtraCategory>();
 
 					if (!IsOrderExist)
@@ -32,12 +33,24 @@ namespace FreeParser.Services.Workers
 						await SendOrder(item);
 						foreach (var c in item.ExtraCategories)
 						{
-							extraCategory.Add(db.GetAll<ExtraCategory>().Find(ec => ec.Name.Trim().ToLower().Contains(c.Name.Trim().ToLower())));
+							try
+							{
+								List<ExtraCategory> extraCategories = await db.GetAllAsync<ExtraCategory>();
+								ExtraCategory extraCat = extraCategories.FirstOrDefault(ec => ec.Name.Trim().ToLower().Contains(c.Name.Trim().ToLower()));
+								if(extraCat != null)
+								{
+									extraCategory.Add(extraCat);
+								}
+							}
+							catch(Exception e)
+							{
+								logger.LogError(e.Message);
+							}
+							
 						}
 						item.ExtraCategories = extraCategory;
 
-
-						db.Add<Order>(item);
+						await db.AddAsync<Order>(item);
 					}
 				}
 			}
@@ -53,7 +66,7 @@ namespace FreeParser.Services.Workers
 			await botClient.SendTextMessageAsync(394143523, order.ToString());
 		}
 
-		public override async void DoWork()
+		public override async Task DoWork()
 		{
 			botClient = await Bot.Get();
 
