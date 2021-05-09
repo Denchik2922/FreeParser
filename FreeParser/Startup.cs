@@ -8,8 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-
+using System;
 
 namespace FreeParser
 {
@@ -32,11 +31,25 @@ namespace FreeParser
 			services.AddHostedService<CategoryService>();
 			services.AddHostedService<SendOrderService>();
 
-			services.AddDbContext<DBContext>(options =>
+
+			var builder = new PostgreSqlConnectionStringBuilder("postgres://wdbmfvmjyylzym:5216095095117041e57c3d2106f05efca4409510455913bcc29c1931c9eafec2@ec2-34-254-120-2.eu-west-1.compute.amazonaws.com:5432/d1iniccdpra9a")
+			{
+				Pooling = true,
+				TrustServerCertificate = true,
+				SslMode = SslMode.Require
+			};
+
+			services.AddEntityFrameworkNpgsql()
+			.AddDbContext<DBContext>(options => {
+				options.UseLazyLoadingProxies();
+				options.UseNpgsql(builder.ConnectionString);
+			});
+
+			/*services.AddDbContext<DBContext>(options =>
 			{
 				options.UseLazyLoadingProxies();
 				options.UseSqlServer(Configuration.GetConnectionString("ConnectionStringDB"));
-			}, ServiceLifetime.Transient);
+			}, ServiceLifetime.Transient);*/
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

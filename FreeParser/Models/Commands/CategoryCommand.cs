@@ -14,27 +14,31 @@ namespace FreeParser.Models.Commands
 	{
 		public override string Name => "category:";
 
-		public override async Task Execute(Message message, TelegramBotClient client, DBController db)
+		public override async Task Execute(Message message, TelegramBotClient client, DBController db, string callBackMessage)
 		{
 			var chatId = (int)message.Chat.Id;
+			var messageId = message.MessageId;
+
 			string messageForUser = "Выберите категорию: ";
+			int idCategory = Convert.ToInt32(callBackMessage.Split(':')[1]);
+			List<ExtraCategory> allExtraCategories = await db.GetAllAsync<ExtraCategory>();
+			List<Category> allCategories = await db.GetAllAsync<Category>();
+			var categories = allExtraCategories.Where(c => c.CategoryId == idCategory).ToList();
+			int idBurse = (int)allCategories.First(c => c.Id == idCategory).BurseId;
 
-			int idCategory = Convert.ToInt32(message.Text.Split(':')[1]);
-
-			await client.SendTextMessageAsync(chatId, messageForUser, replyMarkup: GetButtons(idCategory, db));
+			await client.EditMessageTextAsync(chatId, messageId, messageForUser, replyMarkup: (InlineKeyboardMarkup)GetButtons(idBurse, categories));
 		}
 
-		private IReplyMarkup GetButtons(int idCategory, DBController db)
+		private IReplyMarkup GetButtons(int idBurse, List<ExtraCategory> categories)
 		{
-			var keys = new List<InlineKeyboardButton>();
 			var keyboard = new List<List<InlineKeyboardButton>>();
-
-			List<ExtraCategory> categories = db.GetAll<ExtraCategory>().Where(c => c.CategoryId == idCategory).ToList();
-
+			
 			foreach (var c in categories)
 			{
-				keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = c.Name, CallbackData = $"category:{c.Id}" } });
+				keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = c.Name, CallbackData = $"extraCategory:{c.Id}" } });
 			}
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Назад", CallbackData = $"burse:{idBurse}" } });
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Главное меню", CallbackData = $"/start" } });
 
 			return new InlineKeyboardMarkup(keyboard);
 		}

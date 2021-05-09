@@ -41,7 +41,10 @@ namespace FreeParser.Controllers
 		{
 			if (update == null) return Ok();
 
+			_logger.LogInformation("Update Controller");
+
 			Message message;
+			string callBackMessage = "";
 
 			var commands = Bot.Commands;
 			if (update.Message != null)
@@ -51,6 +54,7 @@ namespace FreeParser.Controllers
 			else if(update.CallbackQuery.Message != null)
 			{
 				message = update.CallbackQuery.Message;
+				callBackMessage = update.CallbackQuery.Data;
 			}
 			else return Ok();
 
@@ -63,7 +67,15 @@ namespace FreeParser.Controllers
 				{
 					if (command.Contains(message.Text))
 					{
+						_logger.LogInformation($"Update Message: {message.Text}");
+						_logger.LogInformation($"CallbackQuery Message: {callBackMessage.Length}");
 						await command.Execute(message, client, db);
+						break;
+					}
+					else if(command.Contains(callBackMessage)){
+						_logger.LogInformation($"Update Message: {message.Text}");
+						_logger.LogInformation($"CallbackQuery Message: {callBackMessage}");
+						await command.Execute(message, client, db, callBackMessage);
 						break;
 					}
 				}

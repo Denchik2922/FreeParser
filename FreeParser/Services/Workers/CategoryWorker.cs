@@ -23,19 +23,22 @@ namespace FreeParser.Services.Workers
 		{
 			foreach (var parser in parsers)
 			{
+				var burses = new List<Burse>();
 				try
 				{
-					var burses = await db.GetAllAsync<Burse>();
-					var IsBurseExist = burses.Any(b => b.Name == parser.Value.BurseName);
-					if (!IsBurseExist)
-					{
-						 await db.AddAsync<Burse>(new Burse() { Name = parser.Value.BurseName });
-					}
+					 burses = await db.GetAllAsync<Burse>();
 				}
 				catch (Exception e)
 				{
 					logger.LogError(e.Message);
 				}
+
+				var IsBurseExist = burses.Any(b => b.Name == parser.Value.BurseName);
+				if (!IsBurseExist)
+				{
+					await db.AddAsync<Burse>(new Burse() { Name = parser.Value.BurseName });
+				}
+				
 			}
 
 			try

@@ -10,7 +10,7 @@ namespace FreeParser.Models
 		/// <summary>
 		/// Адресс сервера.
 		/// </summary>
-		public static string Url { get; set; } = "https://telegrambotfreeparser.azurewebsites.net:443/{0}";
+		public static string Url { get; set; } = "https://free-parser.herokuapp.com:443/{0}";
 
 		/// <summary>
 		/// Название бота.

@@ -22,7 +22,7 @@ namespace BurseParse.Core
 
         public async Task<string> GetSourceByPageId(int id)
         {
-            var currentUrl = url.Replace("{CurrentId}", id.ToString()); ;
+            var currentUrl = url.Replace("{CurrentId}", id.ToString());
             var response = await client.GetAsync(currentUrl);
             string source = null;
 

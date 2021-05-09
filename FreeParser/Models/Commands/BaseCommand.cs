@@ -18,7 +18,7 @@ namespace FreeParser.Models.Commands
 		/// </summary>
 		/// <param name="message"> Сообщение от бота. </param>
 		/// <param name="client"> Бот.</param>
-		public abstract Task Execute(Message message, TelegramBotClient client, DBController db);
+		public abstract Task Execute(Message message, TelegramBotClient client, DBController db, string callBackMessage = null);
 
 		/// <summary>
 		/// Сравнение команды.

@@ -32,9 +32,11 @@ namespace FreeParser.Models
 			}
 
 			commandsList = new List<BaseCommand>();
-			commandsList.Add(new StartCommand());
+			commandsList.Add(new UserInfoCommand());
+			commandsList.Add(new MainMenuCommand());
 			commandsList.Add(new CategoryCommand());
 			commandsList.Add(new BurseCommand());
+			commandsList.Add(new AllBurseCommand());
 			commandsList.Add(new ExtraCategoryCommand());
 
 			client = new TelegramBotClient(BotSettings.Key);

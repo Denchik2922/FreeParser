@@ -1,4 +1,6 @@
+using DBL.DataAccess;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +16,7 @@ namespace FreeParser
 	{
 		public static void Main(string[] args)
 		{
-			CreateHostBuilder(args).Build().Run();
+			CreateHostBuilder(args).Build().MigrateDatabase().Run();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -24,4 +26,29 @@ namespace FreeParser
 					webBuilder.UseStartup<Startup>();
 				});
 	}
+
+    public static class IWebHostExtensions
+    {
+        public static IHost MigrateDatabase(this IHost webHost)
+        {
+           
+            var envAutoMigrate = Environment.GetEnvironmentVariable("AUTO_MIGRATE");
+            if (envAutoMigrate != null && envAutoMigrate == "true")
+            {
+                Console.WriteLine("*** AUTO MIGRATE ***");
+
+                var serviceScopeFactory = (IServiceScopeFactory)webHost.Services.GetService(typeof(IServiceScopeFactory));
+
+                using (var scope = serviceScopeFactory.CreateScope())
+                {
+                    var services = scope.ServiceProvider;
+                    var dbContext = services.GetRequiredService<DBContext>();
+
+                    dbContext.Database.Migrate();
+                }
+            }
+
+            return webHost;
+        }
+    }
 }
