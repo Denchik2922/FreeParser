@@ -38,6 +38,7 @@ namespace FreeParser.Models
 			commandsList.Add(new BurseCommand());
 			commandsList.Add(new AllBurseCommand());
 			commandsList.Add(new ExtraCategoryCommand());
+			commandsList.Add(new ParsingCommand());
 
 			client = new TelegramBotClient(BotSettings.Key);
 			var hook = string.Format(BotSettings.Url, "api/Message/Update");

@@ -27,7 +27,9 @@ namespace FreeParser.Models.Commands
 		{
 			var users = await db.GetAllAsync<DBL.Models.User>();
 			var user = users.First(u => u.ClientId == chatId);
-			return $"Статус рассылки: Не активен;\n" +
+			string StatusParsing = user.IsActiveSendOrder ? "Активен" : "Не активен";
+
+			return $"Статус рассылки: {StatusParsing};\n" +
 				   $"Подписка на категории: {String.Join("", user.ExtraCategories)}";
 		}
 
@@ -35,7 +37,7 @@ namespace FreeParser.Models.Commands
 		{
 			var keyboard = new List<List<InlineKeyboardButton>>();
 			
-			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Главное меню", CallbackData = $"/start" } });
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "🏠 Главное меню", CallbackData = $"/start" } });
 			return new InlineKeyboardMarkup(keyboard);
 		}
 	}

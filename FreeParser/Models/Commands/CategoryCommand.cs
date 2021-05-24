@@ -20,25 +20,40 @@ namespace FreeParser.Models.Commands
 			var messageId = message.MessageId;
 
 			string messageForUser = "Выберите категорию: ";
+
 			int idCategory = Convert.ToInt32(callBackMessage.Split(':')[1]);
 			List<ExtraCategory> allExtraCategories = await db.GetAllAsync<ExtraCategory>();
 			List<Category> allCategories = await db.GetAllAsync<Category>();
+			List<DBL.Models.User> allUsers = await db.GetAllAsync<DBL.Models.User>();
+
+			var userExtraCategoies = allUsers.First(u => u.ClientId == chatId).ExtraCategories.ToList();
 			var categories = allExtraCategories.Where(c => c.CategoryId == idCategory).ToList();
 			int idBurse = (int)allCategories.First(c => c.Id == idCategory).BurseId;
 
-			await client.EditMessageTextAsync(chatId, messageId, messageForUser, replyMarkup: (InlineKeyboardMarkup)GetButtons(idBurse, categories));
+			await client.EditMessageTextAsync(chatId, messageId, messageForUser, replyMarkup: (InlineKeyboardMarkup)GetButtons(idBurse, categories, userExtraCategoies));
 		}
 
-		private IReplyMarkup GetButtons(int idBurse, List<ExtraCategory> categories)
+		private IReplyMarkup GetButtons(int idBurse, List<ExtraCategory> categories, List<ExtraCategory> userCategories)
 		{
 			var keyboard = new List<List<InlineKeyboardButton>>();
 			
 			foreach (var c in categories)
 			{
-				keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = c.Name, CallbackData = $"extraCategory:{c.Id}" } });
+				string textMessages = "";
+				if (userCategories.Contains(c))
+				{
+					textMessages = $"✅ {c.Name}";
+				}
+				else
+				{
+					textMessages = c.Name;
+				}
+
+
+				keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = textMessages, CallbackData = $"extraCategory:{c.Id}" } });
 			}
-			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Назад", CallbackData = $"burse:{idBurse}" } });
-			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Главное меню", CallbackData = $"/start" } });
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "⬅️ Назад", CallbackData = $"burse:{idBurse}" } });
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "🏠 Главное меню", CallbackData = $"/start" } });
 
 			return new InlineKeyboardMarkup(keyboard);
 		}

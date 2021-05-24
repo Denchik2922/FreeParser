@@ -90,6 +90,8 @@ namespace BurseParse.Core
                 var result = parser.ParseOrder(document);
 
                 await OnNewOrderAsync?.Invoke(result);
+
+                await Task.Delay(10000);
             }
         }
 

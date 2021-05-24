@@ -36,8 +36,8 @@ namespace FreeParser.Models.Commands
 			{
 				keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = c.Name, CallbackData = $"category:{c.Id}" } });
 			}
-			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Назад", CallbackData = $"/all_burse" } });
-			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "Главное меню", CallbackData = $"/start" } });
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "⬅️ Назад", CallbackData = $"/all_burse" } });
+			keyboard.Add(new List<InlineKeyboardButton>() { new InlineKeyboardButton { Text = "🏠 Главное меню", CallbackData = $"/start" } });
 			return new InlineKeyboardMarkup(keyboard);
 		}
 	}

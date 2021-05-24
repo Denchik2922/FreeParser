@@ -25,6 +25,11 @@ namespace DBL.Models
 		public string FullName { get; set; }
 
 		/// <summary>
+		/// Уведомление с бирж. 
+		/// </summary>
+		public bool IsActiveSendOrder { get; set; } = false;
+
+		/// <summary>
 		/// Подписка.
 		/// </summary>
 		public virtual Subscribe Subscribe { get; set; }

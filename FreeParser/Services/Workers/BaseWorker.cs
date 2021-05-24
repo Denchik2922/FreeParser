@@ -28,7 +28,7 @@ namespace FreeParser.Services.Workers
 			db = new DBController(context);
 
 			parsers = new Dictionary<IParser, IParserSettings>();
-			parsers.Add(new FreelancehuntParser(), new FrelancehuntSettings(2, 3));
+			parsers.Add(new FreelancehuntParser(), new FrelancehuntSettings(1, 2));
 			parserWorker = new ParserWorker();
 			parserWorker.AddParsers(parsers);
 

@@ -63,7 +63,30 @@ namespace FreeParser.Services.Workers
 
 		public async Task SendOrder(Order order)
 		{
-			await botClient.SendTextMessageAsync(394143523, order.ToString());
+			var users = await db.GetAllAsync<User>();
+			foreach(var user in users)
+			{
+				if (user.IsActiveSendOrder)
+				{
+					foreach(var orderCat in order.ExtraCategories)
+					{
+						bool userExistCategory = user.ExtraCategories.ToList().Exists(c => c.Name.Contains(orderCat.Name));
+						if (userExistCategory)
+						{
+							try
+							{
+								await botClient.SendTextMessageAsync(user.ClientId, order.ToString());
+								break;
+							}
+							catch(Exception e)
+							{
+								logger.LogError($"Ошибка при оправке заказов\nКод ошибки:{e.Message}");
+							}
+							
+						}
+					}
+				}
+			}
 		}
 
 		public override async Task DoWork()
